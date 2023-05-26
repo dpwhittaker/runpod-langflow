@@ -23,9 +23,10 @@ RUN apt-get update --yes && \
 RUN /usr/bin/python3 -m pip install --upgrade pip
 RUN pip install jupyterlab
 RUN pip install ipywidgets
+RUN CMAKE_ARGS="-DLLAMA_CUBLAS=on" FORCE_CMAKE=1 pip install llama-cpp-python
 
 RUN cd /workspace && git clone https://github.com/oobabooga/text-generation-webui.git && cd /workspace/text-generation-webui && pip install -r requirements.txt
-RUN cd /workspace/text-generation-webui && python download-model.py PygmalionAI/pygmalion-6b
+RUN cd /workspace/text-generation-webui && python download-model.py TheBloke/guanaco-65B-GGML
 
 ADD start_chatbot_server.sh /workspace/text-generation-webui/
 ADD start_textgen_server.sh /workspace/text-generation-webui/
