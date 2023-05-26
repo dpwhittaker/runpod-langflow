@@ -11,6 +11,6 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build & Push Image
       run: |
-        docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/runpod-langflow .
         docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }}
+        docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/runpod-langflow .
         docker push ${{ secrets.DOCKER_HUB_USERNAME }}/runpod-langflow
