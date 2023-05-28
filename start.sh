@@ -15,10 +15,11 @@ fi
 
 cd /workspace/text-generation-webui/
 
-if [ ! -z "$LOAD_MODEL" ] && [ "$LOAD_MODEL" != "TheBloke/guanaco-65B-GGML" ]; then
-    rm -rf /workspace/text-generation-webui/models/guanaco*
-    python /workspace/text-generation-webui/download-model.py $LOAD_MODEL
+if [ -z "$LOAD_MODEL" ]; then
+    LOAD_MODEL="TheBloke/guanaco-65B-GGML"
 fi
+
+python /workspace/text-generation-webui/download-model.py $LOAD_MODEL
 
 if [[ $JUPYTER_PASSWORD ]]
 then

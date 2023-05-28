@@ -26,7 +26,6 @@ RUN pip install ipywidgets
 RUN CMAKE_ARGS="-DLLAMA_CUBLAS=on" FORCE_CMAKE=1 pip install llama-cpp-python
 
 RUN cd /workspace && git clone https://github.com/oobabooga/text-generation-webui.git && cd /workspace/text-generation-webui && pip install -r requirements.txt
-RUN cd /workspace/text-generation-webui && python download-model.py TheBloke/guanaco-65B-GGML
 
 ADD start.sh /
 RUN chmod +x /start.sh
