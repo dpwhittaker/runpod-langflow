@@ -1,7 +1,6 @@
 #!/bin/bash
 
 echo 'syncing to workspace, please wait'
-rsync -au --remove-source-files /text-generation-webui/* /workspace/text-generation-webui
 
 if [[ $PUBLIC_KEY ]]
 then
@@ -16,8 +15,8 @@ fi
 
 cd /workspace/text-generation-webui/
 
-if [ ! -z "$LOAD_MODEL" ] && [ "$LOAD_MODEL" != "PygmalionAI/pygmalion-6b" ]; then
-    rm -rf /workspace/text-generation-webui/models/pygmalion-6b
+if [ ! -z "$LOAD_MODEL" ] && [ "$LOAD_MODEL" != "TheBloke/guanaco-65B-GGML" ]; then
+    rm -rf /workspace/text-generation-webui/models/guanaco*
     python /workspace/text-generation-webui/download-model.py $LOAD_MODEL
 fi
 
@@ -29,11 +28,12 @@ then
 fi
 
 echo "Launching Server"
+cd /workspace/text-generation-webui
 #python server.py --listen # runs Oobabooga text generation webui on port 7860
 if [ "$WEBUI" == "chatbot" ]; then
-    /workspace/text-generation-webui/start_chatbot_server.sh
+    python server.py --listen --cai-chat
 else
-    /workspace/text-generation-webui/start_textgen_server.sh
+    python server.py --listen
 fi
 
 sleep infinity
