@@ -13,13 +13,12 @@ then
     service ssh start
 fi
 
-cd /workspace/text-generation-webui/
+cd /workspace/text-generation-webui/models
 
-if [ -z "$LOAD_MODEL" ]; then
-    LOAD_MODEL="TheBloke/guanaco-65B-GGML"
-fi
-
-python /workspace/text-generation-webui/download-model.py $LOAD_MODEL
+wget https://huggingface.co/TheBloke/guanaco-65B-GGML/resolve/main/guanaco-65B.ggmlv3.q8_0.z01
+wget https://huggingface.co/TheBloke/guanaco-65B-GGML/resolve/main/guanaco-65B.ggmlv3.q8_0.zip
+7zz x guanaco-65B.ggmlv3.q8_0.zip # Once the q8_0.bin is extracted you can delete the .zip and .z01
+rm guanaco-65B.ggmlv3.q8_0.z*
 
 if [[ $JUPYTER_PASSWORD ]]
 then

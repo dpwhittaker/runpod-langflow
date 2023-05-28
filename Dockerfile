@@ -18,6 +18,7 @@ RUN apt-get update --yes && \
     wget\
     bash\
     openssh-server\
+    7zip\
     rclone &&\
     echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 RUN /usr/bin/python3 -m pip install --upgrade pip
