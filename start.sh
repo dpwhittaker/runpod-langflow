@@ -18,8 +18,10 @@ cd /workspace/text-generation-webui/models
 if [ ! -f guanaco-65B.ggmlv3.q8_0.bin ]; then
     wget https://huggingface.co/TheBloke/guanaco-65B-GGML/resolve/main/guanaco-65B.ggmlv3.q8_0.z01
     wget https://huggingface.co/TheBloke/guanaco-65B-GGML/resolve/main/guanaco-65B.ggmlv3.q8_0.zip
-    zip -FF guanaco-65B.ggmlv3.q8_0.zip | funzip >> guanaco-65B.ggmlv3.q8_0.bin
+    zip -FF guanaco-65B.ggmlv3.q8_0.zip --out guanaco-65B.ggmlv3.q8_0.full
     rm guanaco-65B.ggmlv3.q8_0.z*
+    unzip guanaco-65B.ggmlv3.q8_0.full
+    rm guanaco-65B.ggmlv3.q8_0.full
 fi
 
 
