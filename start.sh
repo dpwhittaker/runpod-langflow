@@ -36,11 +36,7 @@ fi
 
 echo "Launching Server"
 cd /workspace/text-generation-webui
-#python server.py --listen # runs Oobabooga text generation webui on port 7860
-if [ "$WEBUI" == "chatbot" ]; then
-    python server.py --listen --cai-chat
-else
-    python server.py --listen
-fi
+
+python server.py --listen --chat --n-gpu-layers 128 --threads 1 --model guanaco-65B.ggmlv3.q8_0.bin
 
 sleep infinity
