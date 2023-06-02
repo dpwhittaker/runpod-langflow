@@ -1,27 +1,36 @@
 # start from runpod pytorch container
-ARG BASE_IMAGE=runpod/pytorch:3.10-1.13.1-116
-
+ARG BASE_IMAGE=nvcr.io/nvidia/cuda:12.1.1-cudnn8-devel-ubuntu22.04
 FROM ${BASE_IMAGE} as dev-base
 
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+# Working directory
+WORKDIR /workspace
 
-ENV DEBIAN_FRONTEND noninteractive\
-SHELL=/bin/bash
+# Set necessary environment variables
+ENV DEBIAN_FRONTEND=noninteractive\
+    SHELL=/bin/bash\
+    PATH="/root/.local/bin:$PATH"
 
-RUN apt-key del 7fa2af80
-RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/3bf863cc.pub
-RUN apt-get update --yes && \
-    # - apt-get upgrade is run to patch known vulnerabilities in apt-get packages as
-    #   the ubuntu base image is rebuilt too seldom sometimes (less than once a month)
-    apt-get upgrade --yes && \
-    apt install --yes --no-install-recommends\
-    wget bash nano cuda openssh-server rclone zip unzip &&\
+# Update, upgrade, and install necessary packages
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y --no-install-recommends\
+    bash nano zip unzip git wget curl libgl1 software-properties-common openssh-server python3.10-dev python3.10-venv && \
+    add-apt-repository -y ppa:deadsnakes/ppa && \
+    rm -rf /var/lib/apt/lists/* && \
     echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
-RUN /usr/bin/python3 -m pip install --upgrade pip
-RUN pip install jupyterlab
-RUN pip install ipywidgets
-RUN pip install langchain
-RUN pip install langflow
+
+# Set Python and pip
+RUN ln -s /usr/bin/python3.10 /usr/bin/python && \
+    curl https://bootstrap.pypa.io/get-pip.py | python && \
+    rm -f get-pip.py
+
+# Install Python packages
+COPY dist/xformers-0.0.21a205b24.d20230530-cp310-cp310-linux_x86_64.whl /tmp
+RUN pip install --no-cache-dir --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu121 && \
+    pip install --no-cache-dir -U jupyterlab ipywidgets jupyter-archive jupyter_contrib_nbextensions langchain langflow \
+    /tmp/xformers-0.0.21a205b24.d20230530-cp310-cp310-linux_x86_64.whl && \
+    jupyter nbextension enable --py widgetsnbextension && \
+    rm -f /tmp/xformers-0.0.21a205b24.d20230530-cp310-cp310-linux_x86_64.whl
 
 RUN cd /workspace && git clone https://github.com/oobabooga/text-generation-webui.git && cd /workspace/text-generation-webui && pip install -r requirements.txt
 
