@@ -15,11 +15,13 @@ RUN apt-get update --yes && \
     #   the ubuntu base image is rebuilt too seldom sometimes (less than once a month)
     apt-get upgrade --yes && \
     apt install --yes --no-install-recommends\
-    wget bash nano cuda openssh-server rclone zip unzip langchain langflow &&\
+    wget bash nano cuda openssh-server rclone zip unzip &&\
     echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 RUN /usr/bin/python3 -m pip install --upgrade pip
 RUN pip install jupyterlab
 RUN pip install ipywidgets
+RUN pip install langchain
+RUN pip install langflow
 
 RUN cd /workspace && git clone https://github.com/oobabooga/text-generation-webui.git && cd /workspace/text-generation-webui && pip install -r requirements.txt
 
