@@ -37,6 +37,8 @@ fi
 echo "Launching Server"
 cd /workspace/text-generation-webui
 
-python server.py --listen --chat --n-gpu-layers 128 --threads 1 --model guanaco-65B.ggmlv3.q8_0.bin
+nohup python server.py --listen --chat --n-gpu-layers 128 --threads 1 --model guanaco-65B.ggmlv3.q8_0.bin
+
+nohup langflow --host 0.0.0.0 --port 7861
 
 sleep infinity
