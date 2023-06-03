@@ -14,7 +14,7 @@ ENV DEBIAN_FRONTEND=noninteractive\
 RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y --no-install-recommends\
-    bash nano zip unzip git wget curl libgl1 software-properties-common openssh-server python3.10-dev python3.10-venv && \
+    bash nano zip unzip git wget curl libgl1 software-properties-common openssh-server python3.10-dev python3.10-venv libpq-dev && \
     add-apt-repository -y ppa:deadsnakes/ppa && \
     rm -rf /var/lib/apt/lists/* && \
     echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
