@@ -26,7 +26,7 @@ RUN ln -s /usr/bin/python3.10 /usr/bin/python && \
 
 # Install Python packages
 RUN pip install --no-cache-dir --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu121 && \
-    pip install --no-cache-dir -U jupyterlab ipywidgets jupyter-archive jupyter_contrib_nbextensions langchain langflow \
+    pip install --no-cache-dir -U jupyterlab ipywidgets jupyter-archive jupyter_contrib_nbextensions rich langchain langflow \
     xformers accelerate einops sentencepiece git+https://github.com/huggingface/transformers.git && \
     jupyter nbextension enable --py widgetsnbextension
 
