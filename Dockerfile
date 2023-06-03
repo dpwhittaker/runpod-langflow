@@ -28,9 +28,8 @@ RUN ln -s /usr/bin/python3.10 /usr/bin/python && \
 COPY dist/xformers-0.0.21a205b24.d20230530-cp310-cp310-linux_x86_64.whl /tmp
 RUN pip install --no-cache-dir --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu121 && \
     pip install --no-cache-dir -U jupyterlab ipywidgets jupyter-archive jupyter_contrib_nbextensions langchain langflow \
-    /tmp/xformers-0.0.21a205b24.d20230530-cp310-cp310-linux_x86_64.whl && \
-    jupyter nbextension enable --py widgetsnbextension && \
-    rm -f /tmp/xformers-0.0.21a205b24.d20230530-cp310-cp310-linux_x86_64.whl
+    xformers accelerate einops sentencepiece git+https://github.com/huggingface/transformers.git && \
+    jupyter nbextension enable --py widgetsnbextension
 
 RUN cd /workspace && git clone https://github.com/oobabooga/text-generation-webui.git && cd /workspace/text-generation-webui && pip install -r requirements.txt
 
