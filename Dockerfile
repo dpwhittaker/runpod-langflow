@@ -13,7 +13,6 @@ ENV DEBIAN_FRONTEND=noninteractive\
 # Update, upgrade, and install necessary packages
 RUN apt-get update && \
     apt-get upgrade -y && \
-    add-apt-repository -y ppa:deadsnakes/ppa && \
     apt-get install -y --no-install-recommends\
     bash nano zip unzip git wget curl libgl1 software-properties-common openssh-server python3.10-dev python3.10-venv libpq-dev && \
     rm -rf /var/lib/apt/lists/* && \
