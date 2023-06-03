@@ -1,5 +1,5 @@
 # start from runpod pytorch container
-ARG BASE_IMAGE=nvcr.io/nvidia/cuda:12.1.1-cudnn8-devel-ubuntu22.04
+ARG BASE_IMAGE=nvcr.io/nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04
 FROM ${BASE_IMAGE} as dev-base
 
 # Working directory
@@ -13,14 +13,12 @@ ENV DEBIAN_FRONTEND=noninteractive\
 # Update, upgrade, and install necessary packages
 RUN apt-get update && \
     apt-get upgrade -y && \
+    add-apt-repository -y ppa:deadsnakes/ppa && \
     apt-get install -y --no-install-recommends\
     bash nano zip unzip git wget curl libgl1 software-properties-common openssh-server python3.10-dev python3.10-venv libpq-dev && \
-    add-apt-repository -y ppa:deadsnakes/ppa && \
     rm -rf /var/lib/apt/lists/* && \
-    echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
-
-# Set Python and pip
-RUN ln -s /usr/bin/python3.10 /usr/bin/python && \
+    echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
+    ln -s /usr/bin/python3.10 /usr/bin/python && \
     curl https://bootstrap.pypa.io/get-pip.py | python && \
     rm -f get-pip.py
 
