@@ -22,11 +22,12 @@ RUN apt-get update && \
     rm -f get-pip.py
 
 # Install Python packages
-RUN pip install --no-cache-dir -U torch torchvision torchaudio pytorch jupyterlab ipywidgets jupyter-archive jupyter_contrib_nbextensions \
-    rich langchain langflow xformers accelerate einops sentencepiece transformers accelerate && \
+RUN pip install --no-cache-dir -U torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+RUN pip install --no-cache-dir -U jupyterlab ipywidgets jupyter-archive jupyter_contrib_nbextensions \
+    rich langchain langflow xformers accelerate einops sentencepiece transformers && \
     jupyter nbextension enable --py widgetsnbextension
 
-RUN cd /workspace && git clone https://github.com/oobabooga/text-generation-webui.git && cd /workspace/text-generation-webui && pip install -r requirements.txt
+RUN cd /workspace && git clone https://github.com/oobabooga/text-generation-webui.git && cd text-generation-webui && pip install -r requirements.txt
 
 ADD start.sh /
 RUN chmod +x /start.sh
