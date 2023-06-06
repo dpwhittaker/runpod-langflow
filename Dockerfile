@@ -1,5 +1,5 @@
 # start from runpod pytorch container
-ARG BASE_IMAGE=runpod/oobabooga:latest
+ARG BASE_IMAGE=runpod/oobabooga:1.1.0
 FROM ${BASE_IMAGE} as dev-base
 
 # Working directory
